@@ -5,11 +5,19 @@ const Button = ({ handleClick, text }) => {
 }
 
 const Statistics = ({ good, neutral, bad }) => {
+  const startState = good == 0 && neutral == 0 && bad == 0
+  const totalCollectedFeedback = good + neutral + bad
+  const averageScore = (good + (bad * -1)) / totalCollectedFeedback
+  const percentPositive = (good / totalCollectedFeedback) * 100
+
   return (
     <div>
       <p>good {good}</p>
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
+      <p>all {totalCollectedFeedback}</p>
+      <p>average {startState ? 0 : averageScore}</p>
+      <p>positive {startState ? 0 : percentPositive}</p>
     </div>
   )
 }
