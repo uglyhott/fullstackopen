@@ -1,6 +1,29 @@
 import { useState } from 'react'
 
+const MostVoted = (props) => {
+  const startState = props.points.reduce((a, b) => a + b)
+  let index = 0
+  let votes = 0
+  for (let i = 0; i < props.points.length; i++) {
+    if (props.points[i] >= props.points[index]) {
+      votes = props.points[i]
+      index = i;
+    }
+  }
 
+
+  if (startState == 0) {
+    return <p>No votes placed.</p>
+  } else {
+
+    return (
+      <>
+        <p>{props.anecdotes[index]}</p>
+        <p>has {votes} votes.</p>
+      </>
+    )
+  }
+}
 
 const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
 
@@ -29,11 +52,15 @@ const App = () => {
     setPoints(newPoints)
   }
 
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <Button handleClick={handleVote} text='vote' />
       <Button handleClick={handleRandomChoice} text='next anecdote' />
+      <h1>Anecdote with the most votes</h1>
+      <MostVoted points={points} anecdotes={anecdotes} />
     </div>
   )
 }
