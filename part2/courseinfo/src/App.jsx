@@ -49,11 +49,22 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
 
-  return <Course course={course} />
+  const total = course.parts.reduce((sum, { exercises }) => sum + exercises, 0)
+
+  return (
+    <div>
+      <Course course={course} />
+      <Total sum={total} />
+    </div>)
 }
 
 export default App
