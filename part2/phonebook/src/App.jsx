@@ -1,20 +1,26 @@
 import { useState } from 'react'
 
 const Numbers = ({ persons }) => {
-  return persons.map((person) => <p key={person.id}>{person.name}</p>)
+  return persons.map((person) => <p key={person.id}>{person.name} {person.number}</p>)
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
     {
+      id: 1,
       name: 'Arto Hellas',
-      id: 1
+      number: '39-44-5323532'
     }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
-  const handleInputChange = (event) => {
+  const handleNameInputChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberInputChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   const handleFormSubmit = (event) => {
@@ -24,13 +30,15 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     } else {
       const newPerson = {
+        id: persons.length + 1,
         name: newName,
-        id: persons.length + 1
+        number: newNumber
       }
       setPersons(persons.concat(newPerson))
     }
 
     setNewName('')
+    setNewNumber('')
   }
 
   const nameAlreadyExists = (name) => persons.find((person) => person.name === name) ? true : false
@@ -40,8 +48,9 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={handleFormSubmit}>
         <div>
-          name: <input value={newName} onChange={handleInputChange} />
+          name: <input value={newName} onChange={handleNameInputChange} />
         </div>
+        <div>number: <input value={newNumber} onChange={handleNumberInputChange} /></div>
         <div>
           <button type="submit">add</button>
         </div>
