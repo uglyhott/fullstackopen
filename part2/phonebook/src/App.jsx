@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
 const Numbers = ({ persons }) => {
-  return persons.map((person) => <p>{person.name}</p>)
+  return persons.map((person) => <p key={person.id}>{person.name}</p>)
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    {
+      name: 'Arto Hellas',
+      id: 1
+    }
   ])
   const [newName, setNewName] = useState('')
 
@@ -16,12 +19,21 @@ const App = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
-    const newPerson = {
-      name: newName
+
+    if (nameAlreadyExists(newName)) {
+      alert(`${newName} is already added to phonebook`)
+    } else {
+      const newPerson = {
+        name: newName,
+        id: persons.length + 1
+      }
+      setPersons(persons.concat(newPerson))
     }
-    setPersons(persons.concat(newPerson))
+
     setNewName('')
   }
+
+  const nameAlreadyExists = (name) => persons.find((person) => person.name === name) ? true : false
 
   return (
     <div>
