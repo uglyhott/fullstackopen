@@ -35,9 +35,16 @@ const App = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
-
-    if (nameAlreadyExists(newName)) {
-      alert(`${newName} is already added to phonebook`)
+    const personAlreadyExists = persons.find((person) => person.name.toLowerCase() === newName.toLowerCase())
+    if (personAlreadyExists) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const newPerson = { ...personAlreadyExists, number: newNumber }
+        personService
+          .update(personAlreadyExists.id, newPerson)
+          .then(updatedPerson => (
+            setPersons(persons.map(person => person.id !== updatedPerson.id ? person : updatedPerson))
+          ))
+      }
     } else {
       const newPerson = {
         id: (persons.length + 1).toString(),
@@ -65,8 +72,6 @@ const App = () => {
         })
     }
   }
-
-  const nameAlreadyExists = (name) => persons.find((person) => person.name === name) ? true : false
 
   const filterList = showAll
     ? persons
