@@ -40,7 +40,7 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     } else {
       const newPerson = {
-        id: persons.length + 1,
+        id: (persons.length + 1).toString(),
         name: newName,
         number: newNumber
       }
@@ -51,6 +51,19 @@ const App = () => {
 
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleRemove = (toRemove) => {
+    if (window.confirm(`Delete ${toRemove.name}?`)) {
+      personService
+        .remove(toRemove.id)
+        .then(response => {
+          setPersons(persons.filter(person => person.id !== response.id))
+        })
+        .catch(error => {
+          alert('An error occured, sorry!')
+        })
+    }
   }
 
   const nameAlreadyExists = (name) => persons.find((person) => person.name === name) ? true : false
@@ -73,7 +86,10 @@ const App = () => {
       />
       <h3>Numbers</h3>
       {filterList.map(person =>
-        <Person key={person.id} person={person} />
+        <Person
+          key={person.id}
+          person={person}
+          remove={() => handleRemove(person)} />
       )}
     </div>
   )
