@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
+import Notification from './Components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -39,6 +41,7 @@ const App = () => {
     if (personAlreadyExists) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const newPerson = { ...personAlreadyExists, number: newNumber }
+        setMessage(`Updated ${newPerson.name}`)
         personService
           .update(personAlreadyExists.id, newPerson)
           .then(updatedPerson => (
@@ -51,10 +54,15 @@ const App = () => {
         name: newName,
         number: newNumber
       }
+      setMessage(`Added ${newPerson.name}`)
       personService
         .create(newPerson)
         .then(addedPerson => setPersons(persons.concat(newPerson)))
+
     }
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
 
     setNewName('')
     setNewNumber('')
@@ -80,8 +88,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter filter={filter} handleChange={handleFilterInputChange} />
-      <h3>add a new</h3>
+      <h3>Add new</h3>
       <PersonForm
         onSubmit={handleFormSubmit}
         name={newName}
@@ -90,12 +99,14 @@ const App = () => {
         onNumberInputChange={handleNumberInputChange}
       />
       <h3>Numbers</h3>
-      {filterList.map(person =>
-        <Person
-          key={person.id}
-          person={person}
-          remove={() => handleRemove(person)} />
-      )}
+      <div className="personList">
+        {filterList.map(person =>
+          <Person
+            key={person.id}
+            person={person}
+            remove={() => handleRemove(person)} />
+        )}
+      </div>
     </div>
   )
 }

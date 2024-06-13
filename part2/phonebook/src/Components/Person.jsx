@@ -1,6 +1,6 @@
 const Person = ({ person, remove }) => {
     return (
-        <div>
+        <div className="person">
             {person.name} {person.number} <button onClick={remove}>delete</button>
         </div>
     )
