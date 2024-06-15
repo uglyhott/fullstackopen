@@ -23,10 +23,14 @@ const App = () => {
     setValue(event.target.value)
   }
 
+  const handleClick = (value) => {
+    setValue(value)
+  }
+
   return (
     <>
-      <Search handleInput={handleChange} />
-      <Display countries={countries} value={value} />
+      <Search handleInput={handleChange} value={value} />
+      <Display countries={countries} value={value} onCountryClick={handleClick} />
     </>
   )
 }
