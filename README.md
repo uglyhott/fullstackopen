@@ -7,3 +7,7 @@ My submissions for the exercises of the [Full Stack Open](https://fullstackopen.
     - [courseinfo](/part1/courseinfo)
     - [unicafe](/part1/unicafe)
     - [anecdotes](/part1/anecdotes)
+- [part2](/part2/)
+    - [courseinfo](part2/courseinfo/)
+    - [phonebook](part2/phonebook/)
+    - [countries](part2/countries/)
