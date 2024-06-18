@@ -8,7 +8,6 @@ const Display = ({ countries, value, onCountryClick }) => {
         const filteredList = countries.filter((country) => {
             return country.name.common.toLowerCase().includes(value.toLowerCase())
         })
-        console.log(filteredList.length)
         if (filteredList.length > 10) {
             return <p>Too many results, please refine your filter</p>
         } else if (filteredList.length === 1) {
