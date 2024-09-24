@@ -56,7 +56,6 @@ const App = () => {
       }
     } else {
       const newPerson = {
-        id: (persons.length + 1).toString(),
         name: newName,
         number: newNumber
       }
@@ -64,7 +63,7 @@ const App = () => {
         .create(newPerson)
         .then(addedPerson => {
           setMessage(`Added ${newPerson.name}`)
-          setPersons(persons.concat(newPerson))
+          setPersons(persons.concat(addedPerson))
         })
 
     }
