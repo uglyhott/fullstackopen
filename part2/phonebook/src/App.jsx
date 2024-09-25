@@ -50,8 +50,7 @@ const App = () => {
           })
           .catch(error => {
             setError(true)
-            setMessage(`Information of ${newPerson.name} has already been removed from the server`)
-            setPersons(persons.filter(person => person.id !== newPerson.id))
+            setMessage(error.response.data.error)
           })
       }
     } else {
@@ -64,6 +63,10 @@ const App = () => {
         .then(addedPerson => {
           setMessage(`Added ${newPerson.name}`)
           setPersons(persons.concat(addedPerson))
+        })
+        .catch(error => {
+          setError(true)
+          setMessage(error.response.data.error)
         })
 
     }
